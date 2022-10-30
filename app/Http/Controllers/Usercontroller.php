@@ -10,7 +10,7 @@ use App\Models\User;
 
 class Usercontroller extends Controller
 {
-    //
+    // create a new user
 
     public function  Register(Request $request)
     {
@@ -49,4 +49,58 @@ class Usercontroller extends Controller
 
 
     }
+
+    // Login 
+
+
+    public function login(Request $request)
+    {
+        // retrieve login inputs from the request and validate them
+
+        $fields = $request->validate([
+                'email' => 'string|required',
+                'password'=>'string|required',
+        ]);
+
+        // Get the logged User with email
+        $User = User::where('email', $fields['email'])->first();
+        
+        //check  if user exists 
+        if($User):
+
+
+            // check if the password inserted is the same one in the database
+                
+            if(Hash::check($fields['password'], $User->password)):
+
+                // create access token if the password is right 
+
+                $token = $User->createToken('myapptoken')->plainTextToken;
+
+                return response([
+                    'message' => 'You are logged in',
+
+                    [
+                        'user' => $User,
+                        
+                    ],
+
+                    'token' => $token,
+                ],200);
+
+            
+             endif;
+        else:
+
+            // if credentials are wrong response with wrong message
+            return response([
+
+                'message' => 'wrong credentials',
+              ]);
+
+
+        endif;
+
+    }
+
 }

@@ -44,5 +44,5 @@ Route::post('/register', [Usercontroller::class, 'Register']);
 
 
 //login Route
-Route::get('/login', [Usercontroller::class, 'login']);
+Route::get('/Login', [Usercontroller::class, 'Login']);
 
