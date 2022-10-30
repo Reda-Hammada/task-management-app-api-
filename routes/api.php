@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controller\Usercontroller;
-use App\Http\Controller\Boardcontroller;
-use App\Http\Controller\Taskcontroller;
-use App\Http\Controller\Subtaskcontroller;
+use App\Http\Controllers\Usercontroller;
+use App\Http\Controllers\Boardcontroller;
+use App\Http\Controllers\Taskcontroller;
+use App\Http\Controllers\Subtaskcontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::fallback(function (){
+    abort(404, 'API resource not found');
+});
+
 //Protected routes
 Route::group(['middleware'=>['auth:sanctum']], function(){
 
@@ -40,5 +44,5 @@ Route::post('/register', [Usercontroller::class, 'Register']);
 
 
 //login Route
-Route::post('/login', [Usercontroller::class, 'login']);
+Route::get('/login', [Usercontroller::class, 'login']);
 
