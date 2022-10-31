@@ -19,23 +19,41 @@ class Boardcontroller extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * 
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+      
+
     }
 
     /**
      * Store a newly created resource in storage.
-     *
+     * @param int $user_id
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $user_id)
     {
-        //
+    
+        // create a Board
+
+          $field = $request->validate([
+
+            'Board'=>'string|required',
+        ]);
+
+        $Board = Board::create([
+
+            'board_name'=>$field['Board'],
+            'user_id' => $user_id,
+        ]);
+
+        return response([
+            'message' => 'Board ' . $Board->board_name . ' created successfully',
+            ['Board' => $Board],
+        ]);
     }
 
     /**
@@ -49,10 +67,22 @@ class Boardcontroller extends Controller
         //
         $Board = Board::where('user_id', $id)->get();
         
-        return response([
-            'boards'=> $Board,
-        
-        ]);
+
+            return response([
+
+                'boards'=> $Board,
+            
+            ],200);
+
+        if(empty($Board)):
+            
+            return response([
+
+                'message'=> 'user' . $id . ' has no boards or user not found',
+
+            ], 400);
+
+        endif;
     }
 
     /**

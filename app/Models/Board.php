@@ -10,6 +10,11 @@ class Board extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        
+        'board_name',
+        'user_id',
+    ];
 
  
 }

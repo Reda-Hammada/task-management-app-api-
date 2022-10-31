@@ -31,7 +31,8 @@ Route::fallback(function (){
 //Protected routes
 Route::group(['middleware'=>['auth:sanctum']], function(){
 
-    Route::resource('/board', Boardcontroller::class);
+    Route::get('/board/show/{id}', [Boardcontroller::class, 'show']);
+    Route::post('/board/create/{id}', [Boardcontroller::class, 'store']);
     Route::resource('/task', Taskcontroller::class);
     Route::resource('/subtask', Subtaskcontroller::class);
     Route::get('/Logout', [Usercontroller::class, 'Logout']);

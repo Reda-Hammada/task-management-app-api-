@@ -27,12 +27,13 @@ class Taskcontroller extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     *@param  int  $board_id
+
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($board_id)
     {
-        //
+        //create tasks 
     }
 
     /**
