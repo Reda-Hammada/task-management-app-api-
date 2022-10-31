@@ -3,17 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Tasks;
 
 class Taskcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *  @param  int  $board_id
+
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($board_id)
     {
         //
+        $Tasks = Tasks::where('board_id', $board_id)->get();
+
+        return response([
+            
+            'tasks'=> $Tasks,
+
+        ], 200);
     }
 
     /**
@@ -40,12 +49,20 @@ class Taskcontroller extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $board_id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+
+    public function show($board_id)
     {
         //
+        $Tasks = Tasks::where('board_id', $board_id)->get();
+
+        return response([
+
+            'tasks'=> $Tasks,
+
+        ], 200);
     }
 
     /**

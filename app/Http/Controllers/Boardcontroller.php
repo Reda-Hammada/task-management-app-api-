@@ -51,6 +51,7 @@ class Boardcontroller extends Controller
         
         return response([
             'boards'=> $Board,
+        
         ]);
     }
 

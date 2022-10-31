@@ -32,8 +32,8 @@ Route::fallback(function (){
 Route::group(['middleware'=>['auth:sanctum']], function(){
 
     Route::resource('/board', Boardcontroller::class);
-    Route::resource('/task', Boardcontroller::class);
-    Route::resource('/subtask', Boardcontroller::class);
+    Route::resource('/task', Taskcontroller::class);
+    Route::resource('/subtask', Subtaskcontroller::class);
     Route::get('/Logout', [Usercontroller::class, 'Logout']);
 
 
