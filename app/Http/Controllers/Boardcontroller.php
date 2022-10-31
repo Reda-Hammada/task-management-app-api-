@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Board;
 use Illuminate\Http\Request;
 
 class Boardcontroller extends Controller
@@ -46,6 +47,11 @@ class Boardcontroller extends Controller
     public function show($id)
     {
         //
+        $Board = Board::where('user_id', $id)->get();
+        
+        return response([
+            'boards'=> $Board,
+        ]);
     }
 
     /**

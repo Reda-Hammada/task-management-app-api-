@@ -34,7 +34,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('/board', Boardcontroller::class);
     Route::resource('/task', Boardcontroller::class);
     Route::resource('/subtask', Boardcontroller::class);
-    Route::get('/logout', [Usercontroller::class, 'logout']);
+    Route::get('/Logout', [Usercontroller::class, 'Logout']);
 
 
 });
@@ -44,5 +44,5 @@ Route::post('/register', [Usercontroller::class, 'Register']);
 
 
 //login Route
-Route::get('/Login', [Usercontroller::class, 'Login']);
+Route::post('/Login', [Usercontroller::class, 'Login']);
 

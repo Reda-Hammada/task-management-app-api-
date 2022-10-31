@@ -64,7 +64,7 @@ class Usercontroller extends Controller
 
         // Get the logged User with email
         $User = User::where('email', $fields['email'])->first();
-        
+
         //check  if user exists 
         if($User):
 
@@ -100,6 +100,20 @@ class Usercontroller extends Controller
 
 
         endif;
+
+    }
+
+    // Log out
+
+    public function Logout(Request $request)
+    {
+
+        $request->user()->currentAccessToken()->delete();
+
+        return [
+
+            'message' =>'logged out',
+        ];    
 
     }
 
