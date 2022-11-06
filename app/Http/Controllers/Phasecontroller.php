@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Board;
+use App\Models\Phase;
 use Illuminate\Http\Request;
 
-class Boardcontroller extends Controller
+class Phasecontroller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,41 +19,45 @@ class Boardcontroller extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        
-
+        //
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param int $user_id
+     *@param int $board_id
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $user_id)
+    public function store(Request $request,$board_id)
     {
-    
-        // create a Board
-
-          $field = $request->validate([
-
-            'Board'=>'string|required',
+        //
+        $field = $request->validate([
+            'phase' => 'string|required',
+            
+            
         ]);
 
-        $Board = Board::create([
+        if($field):
 
-            'board_name'=>$field['Board'],
-            'user_id' => $user_id,
-        ]);
+            $phase = new Phase();
+            $phase->create(
+                            ['phase'=> $field['phase'],
+                            'board_id'=> $board_id, ]
+                        );
+        endif;
 
-        return response([
-            'message' => 'Board ' . $Board->board_name . ' created successfully',
-            ['Board' => $Board],
-        ]);
+        if($phase){
+
+            return response([
+                'msg' => 'phase created ' . $phase['phase'] . ' successfuly',
+                ['phase' => $field['phase']],
+            ],201);
+        }
     }
 
     /**
@@ -65,25 +69,6 @@ class Boardcontroller extends Controller
     public function show($id)
     {
         //
-        $Board = Board::where('user_id', $id)->get();
-        
-
-
-            return response([
-
-                'boards'=> $Board,
-            
-            ],200);
-
-        if(empty($Board)):
-            
-            return response([
-
-                'message'=> 'user' . $id . ' has no boards or user not found',
-
-            ], 400);
-
-        endif;
     }
 
     /**

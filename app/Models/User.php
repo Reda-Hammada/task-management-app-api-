@@ -50,6 +50,7 @@ class User extends Authenticatable
         return $this->hasManyThrough(
 
             Board::class,
+            Phase::class,
             Task::class,
             Subtasks::class
         );

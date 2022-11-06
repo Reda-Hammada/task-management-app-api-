@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Usercontroller;
 use App\Http\Controllers\Boardcontroller;
 use App\Http\Controllers\Taskcontroller;
+use App\Http\Controllers\Phasecontroller;
 use App\Http\Controllers\Subtaskcontroller;
 
 /*
@@ -31,6 +32,8 @@ Route::fallback(function (){
 //Protected routes
 Route::group(['middleware'=>['auth:sanctum']], function(){
 
+    Route::get('/phase', [Phasecontroller::class, 'index']);
+    Route::post('/phase/create/{id}',[Phasecontroller::class, 'store']);
     Route::get('/board/show/{id}', [Boardcontroller::class, 'show']);
     Route::post('/board/create/{id}', [Boardcontroller::class, 'store']);
     Route::resource('/task', Taskcontroller::class);

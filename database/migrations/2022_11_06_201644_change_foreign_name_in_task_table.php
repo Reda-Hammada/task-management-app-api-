@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::table('tasks', function (Blueprint $table) {
+            //
+            
+            $table->bigInteger('phase_id')->unsigned();
+            $table->foreign('phase_id')->references('id')->on('phases');
+        
 
-            $table->bigIncrements('id');
-            $table->timestamps();
-            $table->string('task_name');
-           
         });
     }
 
@@ -29,6 +30,11 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::table('tasks', function (Blueprint $table) {
+            //
+          
+
+
+        });
     }
 };

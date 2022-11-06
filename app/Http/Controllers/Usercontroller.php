@@ -52,7 +52,6 @@ class Usercontroller extends Controller
 
     // Login 
 
-
     public function login(Request $request)
     {
         // retrieve login inputs from the request and validate them
