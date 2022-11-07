@@ -29,7 +29,7 @@ class Phasecontroller extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *@param int $board_id
+     * @param int $board_id
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -37,6 +37,7 @@ class Phasecontroller extends Controller
     {
         //
         $field = $request->validate([
+            
             'phase' => 'string|required',
             
             

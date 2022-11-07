@@ -43,7 +43,6 @@ class Boardcontroller extends Controller
 
             'Board'=>'string|required',
         ]);
-
         $Board = Board::create([
 
             'board_name'=>$field['Board'],
@@ -107,6 +106,23 @@ class Boardcontroller extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $field = $request->validate([
+
+            'board'=> 'string|required',
+        ]);
+
+        $Board = new Board;
+        $Board = Board::where('id', $id)->update(['board_name'=>$field['board']]);
+
+        if($Board):
+
+            return response([
+               'msg'=> 'Board id ' . $id .' updated successfully',
+               ['Board'=> $field['board']],
+            ]);
+
+        endif;
     }
 
     /**
@@ -118,5 +134,7 @@ class Boardcontroller extends Controller
     public function destroy($id)
     {
         //
+
+    
     }
 }
