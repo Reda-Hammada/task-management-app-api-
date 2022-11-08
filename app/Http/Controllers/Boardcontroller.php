@@ -137,17 +137,28 @@ class Boardcontroller extends Controller
         //
 
         $Board = new Board();
-        $Board->where('id', $id)->delete();
+       $fetchBoard = $Board->where('id', $id)->first();
 
 
-        if($Board):
+        if(empty($fetchBoard)):
     
 
-            return response ([
-                'message' =>  'Board ' . $board_name . ' deleted successfully',
-            ]);
+                 return response ([
+                    'message' =>  'Board does not exist',
+                 ]);
+            else:
 
-        endif;
+            if(!empty($fetchBoard)):
+
+                $Board->where('id', $id)->delete();
+
+                return response ([
+
+                    'Message' => 'Board was delected successfuly'
+                ]);
+            endif;
+
+    endif;
 
     
     }

@@ -30,15 +30,4 @@ class Board extends Model
     }
 
 
-    public static function boot()
-    {
-        parent::boot();
-
-
-        static::deleting(function(Board $board){
-
-                $board->Phase()->delete();
-        });
-    }
- 
 }

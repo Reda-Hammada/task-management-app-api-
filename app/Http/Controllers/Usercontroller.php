@@ -13,18 +13,6 @@ class Usercontroller extends Controller
 {
     // create a new user
 
-    /** 
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    * @param int $user_id
-    */
-    public function boards(Request $request,$user_id){
-
-            $boards = User::with('Board')->where('id', $user_id)->get();
-
-            return response(['boards'=>$boards]);
-    }
-
 
     
     public function  Register(Request $request)
