@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Board;
 
 
 
@@ -12,6 +13,20 @@ class Usercontroller extends Controller
 {
     // create a new user
 
+    /** 
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    * @param int $user_id
+    */
+    public function boards(Request $request,$user_id){
+
+            $boards = User::with('Board')->where('id', $user_id)->get();
+
+            return response(['boards'=>$boards]);
+    }
+
+
+    
     public function  Register(Request $request)
     {
         $fields = $request->validate([

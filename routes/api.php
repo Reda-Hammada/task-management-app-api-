@@ -36,16 +36,16 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::get('/board/show/{id}', [Boardcontroller::class, 'show']);
     Route::put('/board/update/{id}', [Boardcontroller::class, 'update']);
     Route::post('/board/create/{id}', [Boardcontroller::class, 'store']);
-    
+    Route::delete('/board/destroy/{id}', [Boardcontroller::class, 'destroy']);
+
     // Phase api route 
     Route::get('/phase', [Phasecontroller::class, 'index']);
     Route::post('/phase/create/{id}',[Phasecontroller::class, 'store']);
     
+    
     Route::resource('/task', Taskcontroller::class);
     Route::resource('/subtask', Subtaskcontroller::class);
     Route::get('/Logout', [Usercontroller::class, 'Logout']);
-
-
 });
 
 // Sign up Route

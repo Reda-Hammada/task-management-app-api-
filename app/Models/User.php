@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,14 +46,15 @@ class User extends Authenticatable
     ];
 
 
-    public function board(){
+    public function Board(){
 
-        return $this->hasManyThrough(
+        return $this->hasMany(
 
             Board::class,
-            Phase::class,
-            Task::class,
-            Subtasks::class
+            
         );
     }
+
+    
+
 }

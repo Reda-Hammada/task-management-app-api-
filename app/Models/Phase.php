@@ -13,6 +13,21 @@ class Phase extends Model
         'phase',
         'board_id'
     ];
+
+
+
+    public function Board()
+    { 
+        return $this->belongsTo(
+                Board::class
+        );
+    }
+
+
+    public function Tasks()
+    {
+        return $this->hasMany('App\Tasks');
+    }
 }
 
 

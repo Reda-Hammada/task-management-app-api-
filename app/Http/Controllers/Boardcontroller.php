@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
+use App\Models\Phase;
 use Illuminate\Http\Request;
 
 class Boardcontroller extends Controller
@@ -135,6 +136,20 @@ class Boardcontroller extends Controller
     {
         //
 
+        $Board = new Board();
+        $Board->where('id', $id)->delete();
+
+
+        if($Board):
+    
+
+            return response ([
+                'message' =>  'Board ' . $board_name . ' deleted successfully',
+            ]);
+
+        endif;
+
     
     }
 }
+ 
