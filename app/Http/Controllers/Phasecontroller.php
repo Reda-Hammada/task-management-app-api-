@@ -57,7 +57,7 @@ class Phasecontroller extends Controller
             return response([
                 'msg' => 'phase created ' . $phase['phase'] . ' successfuly',
                 ['phase' => $field['phase']],
-            ],201);
+            ],201); 
         }
     }
 
@@ -93,6 +93,38 @@ class Phasecontroller extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        // set validation 
+        $field = $request->validate([
+
+            'phase' => 'string|required',
+
+        ]);
+
+        // if validated 
+        if($field):
+            // fetch the specific phase with id 
+           
+            $Phase= Phase::where('id', $id)->first();
+
+                if(!empty($Phase)):
+
+                    $Updatephase = new Phase();
+                    $Updatephase->where('id', $id)->update(['phase'=>$field['phase']]);
+                    
+                    return response([
+
+                        'msg' => 'Phase ' . $Phase['phase'] . ' has been updated',
+
+                    ],200);
+
+                endif;
+            endif;
+
+        
+
+
+        
     }
 
     /**

@@ -121,7 +121,7 @@ class Boardcontroller extends Controller
             return response([
                'msg'=> 'Board id ' . $id .' updated successfully',
                ['Board'=> $field['board']],
-            ]);
+            ],200);
 
         endif;
     }
@@ -155,7 +155,7 @@ class Boardcontroller extends Controller
                 return response ([
 
                     'Message' => 'Board was delected successfuly'
-                ]);
+                ],200);
             endif;
 
     endif;
