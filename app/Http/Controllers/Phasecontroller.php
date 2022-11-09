@@ -136,5 +136,24 @@ class Phasecontroller extends Controller
     public function destroy($id)
     {
         //
+        $Phase = Phase::where('id', $id)->first();
+
+        if(!empty($Phase)):
+
+            $deletePhase = new Phase();
+
+            $deletePhase->where('id', $id)->delete();
+
+
+            return response([
+
+                "msg"=> $Phase['phase'] . ' deleted successfully',
+            ]);
+
+        
+
+        endif;
+
+        
     }
 }
