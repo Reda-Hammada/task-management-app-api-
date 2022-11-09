@@ -10,12 +10,14 @@ class Boardcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * 
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
+
+       
     }
 
     /**
@@ -144,7 +146,9 @@ class Boardcontroller extends Controller
     
 
                  return response ([
+
                     'message' =>  'Board does not exist',
+
                  ]);
             else:
 
@@ -155,7 +159,9 @@ class Boardcontroller extends Controller
                 return response ([
 
                     'Message' => 'Board was delected successfuly'
+
                 ],200);
+
             endif;
 
     endif;

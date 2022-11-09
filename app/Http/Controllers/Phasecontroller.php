@@ -9,12 +9,23 @@ class Phasecontroller extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *@param int $board_id 
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($board_id)
     {
         //
+        $Phase = Phase::where('board_id', $board_id)->get();
+
+        if(!empty($Phase)):
+
+            return response([
+            
+                'msg'=> [$Phase],
+    
+            ]);
+            
+        endif;
     }
 
     /**
