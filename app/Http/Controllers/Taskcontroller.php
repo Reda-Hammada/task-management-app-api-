@@ -38,13 +38,33 @@ class Taskcontroller extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     * @param int $phase_id
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$phase_id)
     {
         //
+        $field = $request->validate([
+
+            'task'=>'required|string'
+        ]);
+
+       $Task = new Tasks();
+       
+       $Task->task_name = $field['task'];
+       $Task->phase_id = $phase_id;
+       $Task->save();
+
+       return response([
+        'msg' => 'Task ' . $field['task'] . ' has been successfully created',
+       ],201);
+
+
+
+
+
+
     }
 
     /**
@@ -82,10 +102,10 @@ class Taskcontroller extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $phase_id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $phase_id)
+    public function update(Request $request, $id)
     {
         //
         // validate the request 
@@ -94,19 +114,22 @@ class Taskcontroller extends Controller
             'task'=>'required|string',
         ]);
         // get the specific task
-        $Task = Tasks::where('phase_id', $phase_id)->get();
+        $Task = Tasks::where('id', $id)->first();
 
         // check if it exists with the id provided from the front-end 
         if(!empty($Task)):
 
             $task = new Tasks();
-            $task->update(['task_name'=>$field['task']])->where('phase_id',$phase_id);
+            $task->where('id',$id)->
+            update(['task_name'=>$field['task']]);
+            
 
             return response([
                 
-                'msg' => $Task . ' Has been updated succesfully',
-                
-            ]);
+                'msg' => $Task['task_name'] . ' Has been updated succesfully',
+
+            ],200);
+        
 
         endif;
 

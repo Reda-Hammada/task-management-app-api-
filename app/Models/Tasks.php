@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Tasks extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        
+        'task_name',
+        'phase_id',
+    ];
 
     public function Phase()
     {

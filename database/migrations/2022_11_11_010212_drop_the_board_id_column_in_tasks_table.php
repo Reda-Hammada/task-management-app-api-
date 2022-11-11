@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('phases', function (Blueprint $table) {
-
-            $table->id();
-            $table->string('phase');
-            $table->bigInteger('board_id')->unsigned();
-            $table->foreign('board_id')->references('id')->on('boards');
-            $table->timestamps();
+        Schema::table('tasks', function (Blueprint $table) {
+            //
+            $table->dropForeign(['board_id']);
         });
     }
 
@@ -30,7 +26,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phases');
+        Schema::table('tasks', function (Blueprint $table) {
+            //
+            $table->dropColumn(['board_id']);
 
+        });
     }
 };
