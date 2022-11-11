@@ -3,17 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Subtasks;
 
 class Subtaskcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @param int $task_id
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($task_id)
     {
         //
+
+        $Subtasks = new Subtasks();
+        $Subtasks->where('task_id', $task_id)->get();
+
+        return response([
+            'subtasks' => $Subtasks,
+        ]);
     }
 
     /**
@@ -28,13 +36,35 @@ class Subtaskcontroller extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     * @param int $task_id
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $task_id)
     {
         //
+        // data validation 
+        $fields = $request->validate([
+
+            'subtasks.*.subtask' => 'array:subtask|required',
+        ]);
+
+       
+
+                Subtasks::create([
+                    
+                 'subtask_name' => $fields[
+                    'subtask'
+                 ],
+                 'task_id' => $task_id,
+    
+                ],201);
+    
+                return response(
+                    ['msg' => $fields]
+                );
+
+
     }
 
     /**
@@ -69,6 +99,36 @@ class Subtaskcontroller extends Controller
     public function update(Request $request, $id)
     {
         //
+        $field = $request->validate([
+
+            'subtask' => 'string|required',
+        ]);
+
+        $Subtask = Subtasks::where(
+
+            'id', $id,
+        )
+        ->first();
+
+        if(!empty($Subtask)):
+
+            $updateSubtask = new Subtasks();
+
+            $updateSubtask->where('id',$id)
+            ->update(
+                [
+
+                'subtask_name'=>$field['subtask']
+                
+                ]
+            );
+
+            return response([
+                
+                'msg' => $Subtask['subtask_name'] . ' has been successfully udpated',
+            ]);
+
+        endif;
     }
 
     /**
@@ -80,5 +140,15 @@ class Subtaskcontroller extends Controller
     public function destroy($id)
     {
         //
+
+        $Subtask = new Subtasks();
+
+        $Subtask->where('id', $id)
+        ->delete();
+
+
+        return response([
+            'msg' => $Subtask,
+        ],200);
     }
 }

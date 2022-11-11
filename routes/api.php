@@ -51,7 +51,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::delete('/task/delete/{id}',[Taskcontroller::class,'destroy']);
  
     //Subtask api route 
-    Route::resource('/subtask', Subtaskcontroller::class);
+    Route::post('/subtask/create/{id}', [Subtaskcontroller::class, 'store']);
 
     // logout route 
     Route::get('/Logout', [Usercontroller::class, 'Logout']);
