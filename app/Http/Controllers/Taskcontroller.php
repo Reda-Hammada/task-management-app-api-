@@ -145,5 +145,15 @@ class Taskcontroller extends Controller
     public function destroy($id)
     {
         //
+        $Task = new Tasks();
+        $fetchedTask = $Task->where('id', $id)->first();
+
+        if(!empty($fetchedTask)):
+
+            $Task->where('id',$id)
+            ->delete();
+
+            return response(['msg'=>$fetchedTask['task_name'] . ' has been deleted successfuly ']);
+        endif;
     }
 }
