@@ -9,14 +9,14 @@ class Taskcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
-     *  @param  int  $board_id
+     *  @param  int  $phase_id
 
      * @return \Illuminate\Http\Response
      */
-    public function index($board_id)
+    public function index($phase_id)
     {
         //
-        $Tasks = Tasks::where('board_id', $board_id)->get();
+        $Tasks = Tasks::where('phase_id', $phase_id)->get();
 
         return response([
             
@@ -27,11 +27,11 @@ class Taskcontroller extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *@param  int  $board_id
+     *
 
      * @return \Illuminate\Http\Response
      */
-    public function create($board_id)
+    public function create()
     {
         //create tasks 
     }
@@ -50,14 +50,14 @@ class Taskcontroller extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $board_id
+     * @param  int  $phase_id
      * @return \Illuminate\Http\Response
      */
 
-    public function show($board_id)
+    public function show($phase_id)
     {
         //
-        $Tasks = Tasks::where('board_id', $board_id)->get();
+        $Tasks = Tasks::where('phase_id', $phase_id)->get();
 
         return response([
 
@@ -75,18 +75,42 @@ class Taskcontroller extends Controller
     public function edit($id)
     {
         //
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $phase_id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $phase_id)
     {
         //
+        // validate the request 
+        $field = $request->validate([
+
+            'task'=>'required|string',
+        ]);
+        // get the specific task
+        $Task = Tasks::where('phase_id', $phase_id)->get();
+
+        // check if it exists with the id provided from the front-end 
+        if(!empty($Task)):
+
+            $task = new Tasks();
+            $task->update(['task_name'=>$field['task']])->where('phase_id',$phase_id);
+
+            return response([
+                
+                'msg' => $Task . ' Has been updated succesfully',
+                
+            ]);
+
+        endif;
+
+        
     }
 
     /**

@@ -16,7 +16,7 @@ class Boardcontroller extends Controller
     public function index()
     {
         //
-
+          
        
     }
 
@@ -69,8 +69,7 @@ class Boardcontroller extends Controller
         //
         $Board = Board::where('user_id', $id)->get();
         
-
-
+            
             return response([
 
                 'boards'=> $Board,
