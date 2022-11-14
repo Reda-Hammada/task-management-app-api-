@@ -46,23 +46,21 @@ class Subtaskcontroller extends Controller
         // data validation 
         $fields = $request->validate([
 
-            'subtasks.*.subtask' => 'array:subtask|required',
+            'subtask' => 'string|required',
         ]);
 
        
 
                 Subtasks::create([
                     
-                 'subtask_name' => $fields[
-                    'subtask'
-                 ],
+                 'subtask_name' => $fields['subtask'],
                  'task_id' => $task_id,
     
-                ],201);
+                ]);
     
                 return response(
-                    ['msg' => $fields]
-                );
+
+                    ['msg' => $fields['subtask'] .' has been created successfully'],201);
 
 
     }
@@ -124,7 +122,7 @@ class Subtaskcontroller extends Controller
             );
 
             return response([
-                
+
                 'msg' => $Subtask['subtask_name'] . ' has been successfully udpated',
             ]);
 
@@ -142,13 +140,22 @@ class Subtaskcontroller extends Controller
         //
 
         $Subtask = new Subtasks();
-
+        
         $Subtask->where('id', $id)
-        ->delete();
+        ->first();  
+
+        if(!empty($Subtask)):
+
+            $delete = new Subtasks();
+            $delete->where('id', $id)
+            ->delete();
+        endif;
 
 
         return response([
-            'msg' => $Subtask,
+
+            'msg' => 'Subtask has been deleted'
+
         ],200);
     }
 }
