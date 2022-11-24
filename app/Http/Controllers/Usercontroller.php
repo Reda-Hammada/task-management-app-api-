@@ -17,20 +17,35 @@ class Usercontroller extends Controller
     
     public function  Register(Request $request)
     {
-        $fields = $request->validate([
+        $fields = $request->validate(
+
+            [
              
              'name'=>'string|required',
+             'user_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2080',
              'email'=>'string|required|unique:users,email',
              'password'=>'string|required|confirmed',
 
-        ]);
+            ]
+    );
+        
+        // store image 
 
+        if($request->hasFile('user_image')):
+
+            $image_path = $request->file('user_image')->store('userprofile');
+
+        endif;
+
+       
        
         $user = User::create([
 
             'name'=>$fields['name'],
             'email'=>$fields['email'],
             'password'=>bcrypt($fields['password']),
+            'image_path'=>$image_path,
+            
         ]);
 
         $token =  $user->createToken('myapptoken')->plainTextToken;
@@ -45,7 +60,7 @@ class Usercontroller extends Controller
                     ],
         
                     'token' => $token,
-                ],201, ['Content-Type => application/json']);
+                ],201);
        
 
 
