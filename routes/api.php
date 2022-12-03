@@ -24,6 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Auth::routes(['verify' => true]);
+
+
 
 Route::fallback(function (){
     abort(404, 'API resource not found');
@@ -58,6 +61,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
 
     // logout route 
     Route::get('/Logout', [Usercontroller::class, 'Logout']);
+
 });
 
 // Sign up Route

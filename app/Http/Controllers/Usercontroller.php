@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Board;
 
 
-
 class Usercontroller extends Controller
 {
     // create a new user
@@ -48,7 +47,6 @@ class Usercontroller extends Controller
             
         ]);
 
-        $token =  $user->createToken('myapptoken')->plainTextToken;
 
 
                 return response(
@@ -59,7 +57,6 @@ class Usercontroller extends Controller
                          
                     ],
         
-                    'token' => $token,
                 ],201);
        
 
@@ -108,14 +105,16 @@ class Usercontroller extends Controller
             
              endif;
         else:
-
+            
             // if credentials are wrong response with wrong message
-            return response([
+            if(Hash::check($fields['password'], $User->password) == false):
 
-                'message' => 'wrong credentials',
-              ]);
+                return response([
 
+                    'message' => 'wrong credentials',
+                ]);
 
+            endif; 
         endif;
 
     }
