@@ -21,21 +21,23 @@ class Usercontroller extends Controller
             [
              
              'name'=>'string|required',
-             'user_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2080',
+            //  'user_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2080',
              'email'=>'string|required|unique:users,email',
-             'password'=>'string|required|confirmed',
+             'password'=>'string|required|',
 
             ]
     );
         
-        // store image 
+        // // store image 
 
-        if($request->hasFile('user_image')):
+        // if($request->hasFile('user_image')):
 
-            $image_path = $request->file('user_image')->store('userprofile');
+        //     $image_path = $request->file('user_image')->store('userprofile');
 
-        endif;
+        // endif;
 
+
+        $image_path = 'mypic.png';
        
        
         $user = User::create([
@@ -46,18 +48,15 @@ class Usercontroller extends Controller
             'image_path'=>$image_path,
             
         ]);
+        $token = $user->createToken('myapptoken')->plainTextToken;
 
-
-
-                return response(
-                
-                    ['message :' => 'user has been created',
-                    [
-                        'user' => $fields,
-                         
-                    ],
-        
-                ],201);
+        return response()->json([
+        'status'=>201,
+        'user'=>$fields,
+        'message'=>'Your Account has been created successfuly, 
+                    you will be directed to your dashboard shortly',
+        'token'=>$token
+    ]);
        
 
 
@@ -80,7 +79,6 @@ class Usercontroller extends Controller
         $User = User::where('email', $fields['email'])->first();
 
         //check  if user exists 
-        if($User):
 
 
             // check if the password inserted is the same one in the database
@@ -103,18 +101,15 @@ class Usercontroller extends Controller
                 ],200);
 
             
-             endif;
         else:
             
             // if credentials are wrong response with wrong message
-            if(Hash::check($fields['password'], $User->password) == false):
 
                 return response([
 
                     'message' => 'wrong credentials',
                 ]);
 
-            endif; 
         endif;
 
     }
