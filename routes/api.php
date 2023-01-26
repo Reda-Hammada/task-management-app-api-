@@ -69,5 +69,4 @@ Route::post('/register', [Usercontroller::class, 'Register']);
 
 
 //login Route
-Route::post('/Login', [Usercontroller::class, 'Login']);
-
+Route::post('/Login', [Usercontroller::class, 'login']);

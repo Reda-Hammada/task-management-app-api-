@@ -69,49 +69,51 @@ class Usercontroller extends Controller
     public function login(Request $request)
     {
         // retrieve login inputs from the request and validate them
-
-        $fields = $request->validate([
-                'email' => 'string|required',
+       
+            $fields = $request->validate([
+                'email'=>'string|required',
                 'password'=>'string|required',
-        ]);
-
+             ]);
         // Get the logged User with email
         $User = User::where('email', $fields['email'])->first();
 
         //check  if user exists 
-
-
+        if($User):
             // check if the password inserted is the same one in the database
-                
-            if(Hash::check($fields['password'], $User->password)):
+            $isPassTrue = Hash::check($fields['password'], $User->password);
+            if($isPassTrue):
 
                 // create access token if the password is right 
 
                 $token = $User->createToken('myapptoken')->plainTextToken;
 
-                return response([
-                    'message' => 'You are logged in',
+                return response()->json([
+                    'status'=>200,
+                    'user'=>$User,
+                    'message'=>'Your are being logged in ',
+                    'token'=>$token]);
+                    
+                else:
+                    return response()->json([
+                        'status'=>401,
+                        'message'=>'email or password invalid'
+                    ]);
+                
 
-                    [
-                        'user' => $User,
-                        
-                    ],
+        
 
-                    'token' => $token,
-                ],200);
-
+            endif;
             
         else:
-            
-            // if credentials are wrong response with wrong message
-
-                return response([
-
-                    'message' => 'wrong credentials',
-                ]);
-
+            return response()->json([
+                'status'=>401,
+                'message'=>'email or password invalid'
+            ]);
+        
+       
         endif;
-
+        
+        
     }
 
     // Log out
