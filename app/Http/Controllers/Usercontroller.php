@@ -11,23 +11,17 @@ use App\Models\Board;
 class Usercontroller extends Controller
 {
     // create a new user
-
-
     
-    public function  Register(Request $request)
+    public function Register(Request $request)
     {
         $fields = $request->validate(
 
-            [
-             
-             'name'=>'string|required',
-            //  'user_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2080',
-             'email'=>'string|required|unique:users,email',
-             'password'=>'string|required|',
-
+            [ 'name'=>'string|required',
+          //  'user_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2080',
+              'email'=>'string|required|unique:users,email',
+              'password'=>'string|required|',
             ]
-    );
-        
+            );
         // // store image 
 
         // if($request->hasFile('user_image')):
@@ -48,20 +42,33 @@ class Usercontroller extends Controller
             'image_path'=>$image_path,
             
         ]);
-        $token = $user->createToken('myapptoken')->plainTextToken;
 
-        return response()->json([
-        'status'=>201,
-        'user'=>$fields,
-        'message'=>'Your Account has been created successfuly, 
-                    you will be directed to your dashboard shortly',
-        'token'=>$token
-    ]);
-       
+        $fetchUser = [
+            
+             'name'=>$fields['name'],
+             'email'=>$fields['email'],
+             'image_path'=>$image_path,
 
+        ];
+        
+     if($fields):
+        
+        if($user):
+                
+            $token = $user->createToken('myapptoken')->plainTextToken;
 
-
-
+            return response()->json([
+            'status'=>201,
+            'user'=>$fetchUser,
+            'message'=>'Your Account has been created successfuly, 
+                        you will be directed to your dashboard shortly',
+            'token'=>$token
+            ]);
+            
+        endif;
+        
+    endif;
+    
     }
 
     // Login 
