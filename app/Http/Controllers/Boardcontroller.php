@@ -10,12 +10,17 @@ class Boardcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
-     * 
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         //
+        return response()->json([
+            'status'=>200,
+            'boards'=>Board::where('user_id',$id)->get(),
+        
+        ]);
           
        
     }
@@ -28,34 +33,35 @@ class Boardcontroller extends Controller
     public function create()
     {
         
+      
 
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param int $user_id
+     * @param int $id
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $user_id)
+    public function store(Request $request, $id)
     {
-    
         // create a Board
-
-          $field = $request->validate([
+        $field = $request->validate([
 
             'Board'=>'string|required',
         ]);
         $Board = Board::create([
 
             'board_name'=>$field['Board'],
-            'user_id' => $user_id,
+            'user_id' => $id,
         ]);
 
-        return response([
-            'message' => 'Board ' . $Board->board_name . ' created successfully',
-            ['Board' => $Board],
-        ]);
+        return response()->json(
+            [
+                'message' => 'Board ' . $Board->board_name . ' created successfully',
+                'Board' => $Board,
+            ]
+        );
     }
 
     /**
