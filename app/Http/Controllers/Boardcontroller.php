@@ -10,15 +10,15 @@ class Boardcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @param int $id
+     * @param int $userId
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($userId)
     {
         //
         return response()->json([
             'status'=>200,
-            'boards'=>Board::where('user_id',$id)->get(),
+            'boards'=>Board::where('user_id',$userId)->get(),
         
         ]);
           

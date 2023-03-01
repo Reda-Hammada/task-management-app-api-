@@ -36,10 +36,10 @@ Route::fallback(function (){
 Route::group(['middleware'=>['auth:sanctum']], function(){
 
     // Board api routes 
-    Route::get('/boards/{id}', [Boardcontroller::class, 'index']);
-    Route::get('/board/show/{id}', [Boardcontroller::class, 'show']);
-    Route::put('/board/update/{id}', [Boardcontroller::class, 'update']);
-    Route::post('/board/create/{id}', [Boardcontroller::class, 'store']);
+    Route::get('/boards/user/{userId}', [Boardcontroller::class, 'index']);
+    Route::get('/boards/{id}', [Boardcontroller::class, 'show']);
+    Route::put('/boards/{id}', [Boardcontroller::class, 'update']);
+    Route::post('/boards/user/{userId}', [Boardcontroller::class, 'store']);
     Route::delete('/board/destroy/{id}', [Boardcontroller::class, 'destroy']);
 
     // Phase api route 
