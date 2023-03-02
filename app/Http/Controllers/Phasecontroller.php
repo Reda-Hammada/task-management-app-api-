@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Tasks;
 use App\Models\Phase;
 use Illuminate\Http\Request;
 

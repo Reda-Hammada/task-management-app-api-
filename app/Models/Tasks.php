@@ -22,7 +22,7 @@ class Tasks extends Model
 
     public function Subtasks()
     {
-        return $this->hasMany(Subtasks::class);
+        return $this->hasMany(Subtasks::class, 'task_id');
 
     }
 }

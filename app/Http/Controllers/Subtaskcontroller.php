@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Tasks;
 use Illuminate\Http\Request;
 use App\Models\Subtasks;
 

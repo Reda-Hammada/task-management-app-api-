@@ -36,7 +36,6 @@ class Boardcontroller extends Controller
       
 
     }
-
     /**
      * Store a newly created resource in storage.
      * @param int $id
@@ -67,30 +66,25 @@ class Boardcontroller extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $boardId
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($boardId)
     {
         //
-        $Board = Board::where('user_id', $id)->get();
-        
+        $Board = Board::with('phase.tasks.subtasks')->find($boardId);
+              
+            return response()->json([
+                
+                    'message'=>'Board successfuly fetched',
+                    'boards'=> $Board,
+                    'status'=>200,
+                
             
-            return response([
+                
+            ]);
 
-                'boards'=> $Board,
-            
-            ],200);
-
-        if(empty($Board)):
-            
-            return response([
-
-                'message'=> 'user' . $id . ' has no boards or user not found',
-
-            ], 400);
-
-        endif;
+      
     }
 
     /**

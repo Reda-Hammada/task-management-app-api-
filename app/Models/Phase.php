@@ -26,10 +26,8 @@ class Phase extends Model
 
     public function Tasks()
     {
-        return $this->hasMany('App\Tasks');
+        return $this->hasMany(
+            Tasks::class
+        );
     }
 }
-
-
-
-

@@ -37,7 +37,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
 
     // Board api routes 
     Route::get('/boards/user/{userId}', [Boardcontroller::class, 'index']);
-    Route::get('/boards/{id}', [Boardcontroller::class, 'show']);
     Route::put('/boards/{id}', [Boardcontroller::class, 'update']);
     Route::post('/boards/user/{userId}', [Boardcontroller::class, 'store']);
     Route::delete('/board/destroy/{id}', [Boardcontroller::class, 'destroy']);
@@ -71,3 +70,5 @@ Route::post('/register', [Usercontroller::class, 'Register']);
 
 //login Route
 Route::post('/Login', [Usercontroller::class, 'login']);
+
+Route::get('/boards/{boardId}/phases/tasks/subtasks/', [Boardcontroller::class, 'show']);
