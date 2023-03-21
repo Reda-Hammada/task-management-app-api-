@@ -13,10 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
+
         Schema::table('tasks', function (Blueprint $table) {
             //
-            $table->dropForeign(['board_id']);
+            $table->text('description');
         });
+
+
+
+            
+            
+
     }
 
     /**
@@ -26,10 +33,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            //
-            $table->dropColumn(['board_id']);
+        Schema::dropIfExists('tasks');
 
-        });
     }
 };

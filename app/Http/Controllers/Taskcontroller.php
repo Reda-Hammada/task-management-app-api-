@@ -46,7 +46,8 @@ class Taskcontroller extends Controller
         //
         $field = $request->validate([
 
-            'task'=>'required|string'
+            'title'=>'required|string',
+            'description' =>'required|string',
         ]);
 
        $Task = new Tasks();
