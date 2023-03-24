@@ -47,17 +47,37 @@ class Taskcontroller extends Controller
         $field = $request->validate([
 
             'title'=>'required|string',
-            'description' =>'required|string',
+            'description' =>'string',
+            'Subtask'=>'string'
         ]);
 
        $Task = new Tasks();
        
-       $Task->task_name = $field['task'];
-       $Task->phase_id = $phase_id;
-       $Task->save();
+       if(isset($field['title'])):
+
+           $Task->task_name = $field['title'];
+           $Task->phase_id = $phase_id;
+           $Task->save();
+           
+       endif;
+
+       if(isset($field['description'])):
+
+            $Task->description = $field['description'];
+            $Task->save();
+        
+       endif;
+
+    //    if($field['Subtask']):
+            
+
+    //    endif;
+
+       
+   
 
        return response([
-        'msg' => 'Task ' . $field['task'] . ' has been successfully created',
+        'msg' => 'Task ' . $field['title'] . ' has been successfully created',
        ],201);
 
 

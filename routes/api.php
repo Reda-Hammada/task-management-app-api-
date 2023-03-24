@@ -49,9 +49,9 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     
     //Task api route
     Route::get('/task/{id}', [Taskcontroller::class,'index']);
-    Route::post('/task/create/{id}',[Taskcontroller::class,'store']);
-    Route::put('/task/update/{id}',[Taskcontroller::class,'update']);
-    Route::delete('/task/delete/{id}',[Taskcontroller::class,'destroy']);
+    Route::post('/task/{phaseId}',[Taskcontroller::class,'store']);
+    Route::put('/task/{id}',[Taskcontroller::class,'update']);
+    Route::delete('/task/{id}',[Taskcontroller::class,'destroy']);
  
     //Subtask api route 
     Route::post('/subtask/create/{id}', [Subtaskcontroller::class, 'store']);

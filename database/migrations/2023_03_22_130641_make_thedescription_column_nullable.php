@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-
         Schema::table('tasks', function (Blueprint $table) {
             //
-            $table->text('description ');
+            $table->text('description')->nullable()->change();
         });
-
-
-
-            
-            
-
     }
 
     /**
@@ -33,7 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
-
+        Schema::table('tasks', function (Blueprint $table) {
+            //
+        });
     }
 };
