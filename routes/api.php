@@ -33,7 +33,7 @@ Route::fallback(function (){
 });
 
 //Protected routes
-Route::group(['middleware'=>['auth:sanctum']], function(){
+Route::group(['middleware'=>['auth:sanctum','throttle:90,1']], function(){
 
     // Board api routes 
     Route::get('/boards/user/{userId}', [Boardcontroller::class, 'index']);
