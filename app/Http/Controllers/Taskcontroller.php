@@ -41,50 +41,40 @@ class Taskcontroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$phase_id)
-    {
-        //
+    public function store(Request $request,$phase_id){
+        
         $field = $request->validate([
 
-            'title'=>'required|string',
+            'title'=>'string|required',
             'description' =>'string',
-            'Subtask'=>'string'
+            'Subtasks' => 'array'
+            
         ]);
 
-       $Task = new Tasks();
+         $Task = new Tasks();
        
-       if(isset($field['title'])):
-
            $Task->task_name = $field['title'];
            $Task->phase_id = $phase_id;
            $Task->save();
+          
            
-       endif;
-
        if(isset($field['description'])):
 
             $Task->description = $field['description'];
             $Task->save();
         
-       endif;
+        endif;
+ 
 
-    //    if($field['Subtask']):
-            
+       // Subtasks 
+      
+       foreach($request->except(['title','descriptiond'] as $key => $value)):
 
-    //    endif;
-
-       
-   
+       endforeach;
 
        return response([
         'msg' => 'Task ' . $field['title'] . ' has been successfully created',
        ],201);
-
-
-
-
-
-
     }
 
     /**
