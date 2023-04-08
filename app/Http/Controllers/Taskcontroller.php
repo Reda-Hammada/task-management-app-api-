@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Tasks;
+use App\Models\Subtasks;
+
 
 class Taskcontroller extends Controller
 {
@@ -47,16 +50,17 @@ class Taskcontroller extends Controller
 
             'title'=>'string|required',
             'description' =>'string',
-            'Subtasks' => 'array'
             
         ]);
 
          $Task = new Tasks();
        
+         // title 
            $Task->task_name = $field['title'];
            $Task->phase_id = $phase_id;
            $Task->save();
-          
+        
+        // description 
            
        if(isset($field['description'])):
 
@@ -67,10 +71,25 @@ class Taskcontroller extends Controller
  
 
        // Subtasks 
-      
-       foreach($request->except(['title','descriptiond'] as $key => $value)):
+        foreach($request->except(['title','description']) as $key => $value):
+            
+          //  checking if there is Subtask exist in the request since we are expecting unexpected indexed named array (Subtask1,Subtask2,Subtask3 ...)
+            if(strpos($key, 'Subtask') === 0    ):
+                    // then validate all the Subtasks in the request 
+                $validatedSubtask = Validator::make(['Subtask'=> $value],[
+                    'Subtask' => 'string'
+                    
+                ])->validate();
 
-       endforeach;
+                // then store it in the database 
+                $Subtask = new Subtasks();
+                $Subtask->subtask_name = $validatedSubtask['Subtask'];
+                $Subtask->task_id =  $Task->id;
+                $Subtask->save();
+                
+            endif;
+             
+        endforeach;
 
        return response([
         'msg' => 'Task ' . $field['title'] . ' has been successfully created',
