@@ -43,7 +43,7 @@ Route::group(['middleware'=>['auth:sanctum','throttle:90,1']], function(){
 
     // Phase api route 
     Route::get('/phase/{id}', [Phasecontroller::class, 'index']);
-    Route::post('/phase/create/{id}',[Phasecontroller::class, 'store']);
+    Route::post('/phase/{boardId}',[Phasecontroller::class, 'store']);
     Route::put('/phase/update/{id}', [Phasecontroller::class, 'update']);
     Route::delete('/phase/delete/{id}',[Phasecontroller::class,'destroy']);
     

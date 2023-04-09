@@ -28,23 +28,14 @@ class Phasecontroller extends Controller
         endif;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+   
     /**
      * Store a newly created resource in storage.
-     * @param int $board_id
+     * @param int $boardId
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$board_id)
+    public function store(Request $request,$boardId)
     {
         //
         $field = $request->validate([
@@ -54,22 +45,20 @@ class Phasecontroller extends Controller
             
         ]);
 
-        if($field):
 
             $phase = new Phase();
             $phase->create(
                             ['phase'=> $field['phase'],
-                            'board_id'=> $board_id, ]
+                            'board_id'=> $boardId, ]
                         );
-        endif;
 
-        if($phase){
+
 
             return response([
                 'msg' => 'phase created ' . $phase['phase'] . ' successfuly',
-                ['phase' => $field['phase']],
+               
             ],201); 
-        }
+    
     }
 
     /**
