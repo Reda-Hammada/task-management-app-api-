@@ -59,8 +59,9 @@ Route::group(['middleware'=>['auth:sanctum','throttle:90,1']], function(){
     Route::put('/subtask/update/{id}', [Subtaskcontroller::class, 'update']);
     Route::delete('/subtask/delete/{id}', [Subtaskcontroller::class, 'destroy']);
 
-    // logout route 
+    // user route logout & update   
     Route::get('/Logout', [Usercontroller::class, 'Logout']);
+    Route::put('/user/{userId}',[Usercontroller::class, 'updateUserInfo']);
 
 });
 

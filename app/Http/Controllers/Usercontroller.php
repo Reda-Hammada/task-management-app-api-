@@ -4,34 +4,39 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Laravolt\Avatar\Avatar;
 use App\Models\User;
 use App\Models\Board;
 
 
 class Usercontroller extends Controller
 {
-    // create a new user
+    /**
+     * Create new user 
+     *  @param  \Illuminate\Http\Request  $request
+     *  @return \Illuminate\Http\Response
+     */
+
+  
+        
     
     public function Register(Request $request)
     {
         $fields = $request->validate(
 
             [ 'name'=>'string|required',
-          //  'user_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2080',
               'email'=>'string|required|unique:users,email',
               'password'=>'string|required|',
             ]
             );
-        // // store image 
+         // create Image based on user's intials
+     
 
-        // if($request->hasFile('user_image')):
+        // $avatar = new Avatar();
+        //  $image = $avatar->create($fields['name'])->toBase64();
+         
+        $image_path = 'user.png';
 
-        //     $image_path = $request->file('user_image')->store('userprofile');
-
-        // endif;
-
-
-        $image_path = 'mypic.png';
        
        
         $user = User::create([
@@ -71,7 +76,11 @@ class Usercontroller extends Controller
     
     }
 
-    // Login 
+    /**
+     * log in user 
+     *  @param  \Illuminate\Http\Request  $request
+     *  @return \Illuminate\Http\Response
+     */
 
     public function login(Request $request)
     {
@@ -111,7 +120,7 @@ class Usercontroller extends Controller
 
             endif;
             
-        else:
+        else: 
             return response()->json([
                 'status'=>401,
                 'message'=>'email or password invalid'
@@ -123,7 +132,80 @@ class Usercontroller extends Controller
         
     }
 
-    // Log out
+
+    /**
+     * update user info 
+     *  @param int $userId
+     *  @param  \Illuminate\Http\Request  $request
+     *  @return \Illuminate\Http\Response
+     */
+
+    public function updateUserInfo(Request $request,$userId){
+         
+        $fields = $request->validate([
+            
+                 'userfullname'=>'|string',
+                 'email'=>'string|email',
+                 'password'=>'srting',
+                 'image'=>'',
+        ]);
+
+        $User = User::findOrFail($userId);
+
+        // user full name
+
+        if(isset($fields['userfullname'])):
+            
+           $User->name = $fields['userfullname'];
+           $User->save();
+           
+        //    return response([
+        //     'msg' => 'full name has been updated to ' . $User->name,
+        //      'status'=> 200,
+        //         ]);
+           
+        endif;
+
+        // user email 
+
+        if(isset($fields['email'])):
+            
+            $User->email =  $fields['email'];
+            $User->save();
+            return response([
+                'msg' => 'email has been updated to ' . $User->email,
+                 'status'=> 200,
+                    ]);
+
+        endif;
+
+
+        // user password
+
+        if(isset($fields['newpass'])):
+             
+            $User->password = bcrypt($fields['newpass']);
+            $User->save();
+            
+          
+        endif;
+        
+        // user profile picture
+
+        if(isset($fields['userImage'])):
+
+
+
+        endif;
+  
+        
+    }
+
+    /**
+     * log out user 
+     *  @param  \Illuminate\Http\Request  $request
+     *  @return \Illuminate\Http\Response
+     */
 
     public function Logout(Request $request)
     {

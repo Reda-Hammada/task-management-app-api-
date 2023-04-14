@@ -80,7 +80,7 @@ class Taskcontroller extends Controller
                     'Subtask' => 'string'
                     
                 ])->validate();
-
+ 
                 // then store it in the database 
                 $Subtask = new Subtasks();
                 $Subtask->subtask_name = $validatedSubtask['Subtask'];
