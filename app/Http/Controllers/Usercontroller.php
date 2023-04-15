@@ -141,63 +141,116 @@ class Usercontroller extends Controller
      */
 
     public function updateUserInfo(Request $request,$userId){
-         
-        $fields = $request->validate([
-            
-                 'userfullname'=>'|string',
-                 'email'=>'string|email',
-                 'password'=>'srting',
-                 'image'=>'',
-        ]);
-
-        $User = User::findOrFail($userId);
-
-        // user full name
-
-        if(isset($fields['userfullname'])):
-            
-           $User->name = $fields['userfullname'];
-           $User->save();
-           
-        //    return response([
-        //     'msg' => 'full name has been updated to ' . $User->name,
-        //      'status'=> 200,
-        //         ]);
-           
-        endif;
-
-        // user email 
-
-        if(isset($fields['email'])):
-            
-            $User->email =  $fields['email'];
-            $User->save();
-            return response([
-                'msg' => 'email has been updated to ' . $User->email,
-                 'status'=> 200,
-                    ]);
-
-        endif;
-
-
-        // user password
-
-        if(isset($fields['newpass'])):
-             
-            $User->password = bcrypt($fields['newpass']);
-            $User->save();
-            
-          
-        endif;
         
-        // user profile picture
+       try{
+        
+           
+            $user = User::findOrFail($userId);
+               
 
-        if(isset($fields['userImage'])):
+                $updatedFields = [];
+ 
+                // user full name
+                if ($request->filled('userfullname')) :
 
+                    $request->validate([
+                        'userfullname' => 'string',
+                    ]);
+                    
+                    $user->name = $request->input('userfullname');
+                    $user->save();
 
+                   $updatedFields[] = 'userfullname';
+                   
+                endif;
 
-        endif;
-  
+                // user email
+                if ($request->filled('email')):
+                    $request->validate([
+                        'email' => 'string|email',
+                    ]);
+                    
+                    $user->email = $request->input('email');
+                    $user->save();
+
+                    $updatedFields[] = 'email';
+
+                endif;
+
+                // user password
+                if ($request->filled('newpass')):
+
+                    $request->validate([
+                        'newpass' => 'string',
+                    ]);
+                    
+                    $user->password = bcrypt($request->input('newpass'));
+                    $user->save();
+
+                    $updatedFields[] = 'password';
+                    
+
+                endif;
+                
+                // keeping track of which fields have been updated to send it through the response to the client
+                if(!empty($updatedFields)):
+
+                     if(in_array('email',$updatedFields) && in_array('userfullname', $updatedFields) && in_array('password', $updatedFields)):
+                            
+                            $msg ='Your personal information has been successfully updated';
+
+                            return response([
+                                'msg' => $msg,
+                                'status' => 200,
+                            ]);
+                            
+                     endif;
+
+                     if(in_array('userfullname', $updatedFields)):
+                            $msg = 'Your full name has been successfully updated';
+
+                            return response([
+                                
+                               'msg'=> $msg,
+                               'status'=> 200,
+                            ]);
+
+                     endif;
+                     
+                     if(in_array('email', $updatedFields)):
+                        $msg = 'Your email has been successfully updated';
+
+                        return response([
+                            
+                           'msg'=> $msg,
+                           'status'=> 200,
+                        ]);
+
+                 endif;
+
+                     if(in_array('password', $updatedFields)):
+                        $msg = 'Your password has been successfully changed';
+
+                        return response([
+                            
+                            'msg'=> $msg,
+                            'status'=>200,
+                        ]);
+                     endif;
+                endif;
+            
+                
+       } 
+       catch (\Exception $e) {
+
+            return response([
+                
+                'error' => $e->getMessage(),
+                'status' => 500,
+                
+            ]);
+    }
+       
         
     }
 
