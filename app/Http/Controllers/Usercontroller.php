@@ -29,13 +29,14 @@ class Usercontroller extends Controller
               'password'=>'string|required|',
             ]
             );
+            
          // create Image based on user's intials
-     
-
-        // $avatar = new Avatar();
-        //  $image = $avatar->create($fields['name'])->toBase64();
+                
+         $avatar = new Avatar();
+         $image= $avatar->create($fields['name'])->toBase64();
+        
          
-        $image_path = 'user.png';
+      
 
        
        
@@ -44,7 +45,7 @@ class Usercontroller extends Controller
             'name'=>$fields['name'],
             'email'=>$fields['email'],
             'password'=>bcrypt($fields['password']),
-            'image_path'=>$image_path,
+            'image_path' =>'image.png'
             
         ]);
 
@@ -52,7 +53,7 @@ class Usercontroller extends Controller
             
              'name'=>$fields['name'],
              'email'=>$fields['email'],
-             'image_path'=>$image_path,
+             'image_path'=>$image,
 
         ];
         
@@ -102,6 +103,13 @@ class Usercontroller extends Controller
                 // create access token if the password is right 
 
                 $token = $User->createToken('myapptoken')->plainTextToken;
+
+
+                         // create Image based on user's intials
+                
+                        $avatar = new Avatar();
+                        $image_path= $avatar->create($User['name'])->toBase64();
+                        $User[] =['image_path'=> $image_path];
 
                 return response()->json([
                     'status'=>200,
@@ -166,6 +174,7 @@ class Usercontroller extends Controller
 
                 // user email
                 if ($request->filled('email')):
+                    
                     $request->validate([
                         'email' => 'string|email',
                     ]);
@@ -235,8 +244,11 @@ class Usercontroller extends Controller
                             
                             'msg'=> $msg,
                             'status'=>200,
+                            
                         ]);
+                        
                      endif;
+                     
                 endif;
             
                 
@@ -252,7 +264,7 @@ class Usercontroller extends Controller
     }
        
         
-    }
+    }    
 
     /**
      * log out user 
