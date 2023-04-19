@@ -17,9 +17,7 @@ class Usercontroller extends Controller
      *  @return \Illuminate\Http\Response
      */
 
-  
-        
-    
+
     public function Register(Request $request)
     {
         $fields = $request->validate(
@@ -31,30 +29,32 @@ class Usercontroller extends Controller
             );
             
          // create Image based on user's intials
-                
-         $avatar = new Avatar();
-         $image= $avatar->create($fields['name'])->toBase64();
-        
          
-      
+                  
+         $avatar = new Avatar();
+        
+         $userName = mb_convert_encoding($fields['name'],'UTF-8', 'UTF-8');
 
-       
-       
+         $image_path = $avatar->create($userName);
+         $image_path->save(public_path('storage/avatars' . $userName. '.png'),100);
+                  
+            
         $user = User::create([
 
             'name'=>$fields['name'],
             'email'=>$fields['email'],
             'password'=>bcrypt($fields['password']),
-            'image_path' =>'image.png'
+            'image_path' =>$image_path,
             
         ]);
-
+            
         $fetchUser = [
             
              'name'=>$fields['name'],
              'email'=>$fields['email'],
-             'image_path'=>$image,
+             'image_path' =>$image_path,
 
+  
         ];
         
      if($fields):
@@ -91,7 +91,7 @@ class Usercontroller extends Controller
                 'email'=>'string|required',
                 'password'=>'string|required',
              ]);
-        // Get the logged User with email
+        // Get the logged User with email 
         $User = User::where('email', $fields['email'])->first();
 
         //check  if user exists 
@@ -104,12 +104,6 @@ class Usercontroller extends Controller
 
                 $token = $User->createToken('myapptoken')->plainTextToken;
 
-
-                         // create Image based on user's intials
-                
-                        $avatar = new Avatar();
-                        $image_path= $avatar->create($User['name'])->toBase64();
-                        $User[] =['image_path'=> $image_path];
 
                 return response()->json([
                     'status'=>200,
@@ -227,6 +221,7 @@ class Usercontroller extends Controller
                      endif;
                      
                      if(in_array('email', $updatedFields)):
+                        
                         $msg = 'Your email has been successfully updated';
 
                         return response([
@@ -284,4 +279,6 @@ class Usercontroller extends Controller
 
     }
 
+
+   
 }
