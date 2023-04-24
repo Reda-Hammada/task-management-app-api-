@@ -36,7 +36,7 @@ class Usercontroller extends Controller
          $userName = mb_convert_encoding($fields['name'],'UTF-8', 'UTF-8');
 
          $image_path = $avatar->create($userName);
-         $image_path->save(public_path('storage/avatars' . $userName. '.png'),100);
+        $image_path->save(public_path('storage/avatars' . $userName. '.png'),100);
                   
             
         $user = User::create([
@@ -47,12 +47,14 @@ class Usercontroller extends Controller
             'image_path' =>$image_path,
             
         ]);
-            
+        // fetch user image 
+        $image = $user->latest()->value('image_path');
+        
         $fetchUser = [
             
              'name'=>$fields['name'],
              'email'=>$fields['email'],
-             'image_path' =>$image_path,
+             'image_path' => $image,
 
   
         ];
@@ -158,7 +160,7 @@ class Usercontroller extends Controller
                     $request->validate([
                         'userfullname' => 'string',
                     ]);
-                    
+                      
                     $user->name = $request->input('userfullname');
                     $user->save();
 
