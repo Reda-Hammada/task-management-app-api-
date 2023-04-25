@@ -15,9 +15,9 @@ class Usercontroller extends Controller
      * Create new user 
      *  @param  \Illuminate\Http\Request  $request
      *  @return \Illuminate\Http\Response
+     * 
      */
-
-
+      
     public function Register(Request $request)
     {
         $fields = $request->validate(
@@ -100,6 +100,7 @@ class Usercontroller extends Controller
         if($User):
             // check if the password inserted is the same one in the database
             $isPassTrue = Hash::check($fields['password'], $User->password);
+            
             if($isPassTrue):
 
                 // create access token if the password is right 
@@ -183,16 +184,35 @@ class Usercontroller extends Controller
                 endif;
 
                 // user password
-                if ($request->filled('newpass')):
+                if ($request->filled('newpass') && $request->filled('currentpassword')):
 
                     $request->validate([
+                        'currentpassword'=>'string',
                         'newpass' => 'string',
                     ]);
+                     
+                    $isPassTrue = Hash::check($request['currentpassword'], $user->password);
                     
-                    $user->password = bcrypt($request->input('newpass'));
-                    $user->save();
+                    if($isPassTrue):
 
-                    $updatedFields[] = 'password';
+                        $user->password = bcrypt($request->input('newpass'));
+                        $user->save();
+    
+                        $updatedFields[] = 'password';
+                        
+                    else:
+                        $msg = 'Your current password is wrong';
+                        return response([
+                            'msg' => $msg,
+                            'status'=>401,
+                             
+                        ]);
+
+                    endif;
+                    
+
+                     
+                 
                     
 
                 endif;
