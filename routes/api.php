@@ -34,7 +34,7 @@ Route::fallback(function (){
 
 //Protected routes
 Route::group(['middleware'=>['auth:sanctum','throttle:90,1']], function(){
-
+    Route::get('/boards/{boardId}/phases/tasks/subtasks/', [Boardcontroller::class, 'show']);
     // Board api routes 
     Route::get('/boards/user/{userId}', [Boardcontroller::class, 'index']);
     Route::put('/boards/{id}', [Boardcontroller::class, 'update']);
@@ -71,5 +71,3 @@ Route::post('/register', [Usercontroller::class, 'Register']);
 
 //login Route
 Route::post('/Login', [Usercontroller::class, 'login']);
-
-Route::get('/boards/{boardId}/phases/tasks/subtasks/', [Boardcontroller::class, 'show']);

@@ -107,12 +107,12 @@ class Usercontroller extends Controller
 
                 $token = $User->createToken('myapptoken')->plainTextToken;
 
-
                 return response()->json([
                     'status'=>200,
                     'user'=>$User,
                     'message'=>'Your are being logged in ',
-                    'token'=>$token]);
+                    'token'=>$token
+                ]);
                     
                 else:
                     return response()->json([
@@ -202,7 +202,7 @@ class Usercontroller extends Controller
                         
                     else:
                         $msg = 'Your current password is wrong';
-                        return response([
+                        return response()->json([
                             'msg' => $msg,
                             'status'=>401,
                              
@@ -224,8 +224,9 @@ class Usercontroller extends Controller
                             
                             $msg ='Your personal information has been successfully updated';
 
-                            return response([
+                            return response()->json([
                                 'msg' => $msg,
+                                'userData'=>$user,
                                 'status' => 200,
                             ]);
                             
@@ -234,11 +235,11 @@ class Usercontroller extends Controller
                      if(in_array('userfullname', $updatedFields)):
                             $msg = 'Your full name has been successfully updated';
 
-                            return response([
-                                
-                               'msg'=> $msg,
-                               'status'=> 200,
-                            ]);
+                            return response()->json([
+                                'msg' => $msg,
+                                'userData'=>$user,
+                                'status' => 200,
+                            ]);;
 
                      endif;
                      
@@ -246,22 +247,21 @@ class Usercontroller extends Controller
                         
                         $msg = 'Your email has been successfully updated';
 
-                        return response([
-                            
-                           'msg'=> $msg,
-                           'status'=> 200,
-                        ]);
+                        return response()->json([
+                                'msg' => $msg,
+                                'userData'=>$user,
+                                'status' => 200,
+                            ]);
 
                  endif;
 
                      if(in_array('password', $updatedFields)):
                         $msg = 'Your password has been successfully changed';
 
-                        return response([
-                            
-                            'msg'=> $msg,
-                            'status'=>200,
-                            
+                        return response()->json([
+                            'msg' => $msg,
+                            'userData'=>$user,
+                            'status' => 200,
                         ]);
                         
                      endif;
@@ -294,10 +294,10 @@ class Usercontroller extends Controller
 
         $request->user()->currentAccessToken()->delete();
 
-        return [
-
-            'message' =>'logged out',
-        ];    
+      return response()->json([
+            'msg' => 'You have been successfully logged out',
+            'status' => 200,
+        ]);
 
     }
 

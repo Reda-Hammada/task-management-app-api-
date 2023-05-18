@@ -27,16 +27,7 @@ class Taskcontroller extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //create tasks 
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -64,7 +55,7 @@ class Taskcontroller extends Controller
            
        if(isset($field['description'])):
 
-            $Task->description = $field['description'];
+            $Task-> description= $field['description'];
             $Task->save();
         
         endif;
@@ -115,17 +106,7 @@ class Taskcontroller extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-
-    }
+    
 
     /**
      * Update the specified resource in storage.
