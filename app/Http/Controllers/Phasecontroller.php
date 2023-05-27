@@ -124,10 +124,12 @@ class Phasecontroller extends Controller
             $deletePhase->where('id', $id)->delete();
 
 
-            return response([
-
+            return response()->json(
+                [
+                'status'=>200,
                 "msg"=> $Phase['phase'] . ' deleted successfully',
-            ]);
+                ]
+        );
 
         
 

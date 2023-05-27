@@ -134,11 +134,13 @@ class Taskcontroller extends Controller
             update(['task_name'=>$field['task']]);
             
 
-            return response([
-                
-                'msg' => $Task['task_name'] . ' Has been updated succesfully',
-
-            ],200);
+            return response()
+                     ->json(
+                        [
+                        'msg' => $Task['task_name'] . ' Has been updated succesfully',
+                        'status'=> 200,
+                        ]
+                    );
         
 
         endif;
@@ -163,7 +165,11 @@ class Taskcontroller extends Controller
             $Task->where('id',$id)
             ->delete();
 
-            return response(['msg'=>$fetchedTask['task_name'] . ' has been deleted successfuly ']);
+            return response()->json(
+                ['msg'=>$fetchedTask['task_name'] . ' has been deleted successfuly ',
+                 'status'=>200,
+                ]
+            );
         endif;
     }
 }
