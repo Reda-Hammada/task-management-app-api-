@@ -51,7 +51,7 @@ class Usercontroller extends Controller
         $image = $user->latest()->value('image_path');
         
         $fetchUser = [
-            
+             'id'=> $user->id,
              'name'=>$fields['name'],
              'email'=>$fields['email'],
              'image_path' => $image,

@@ -71,8 +71,7 @@ class Phasecontroller extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-
+        
         // set validation 
         $field = $request->validate([
 
@@ -91,11 +90,13 @@ class Phasecontroller extends Controller
                     $Updatephase = new Phase();
                     $Updatephase->where('id', $id)->update(['phase'=>$field['phase']]);
                     
-                    return response([
-
-                        'msg' => 'Phase ' . $Phase['phase'] . ' has been updated',
-
-                    ],200);
+                    return response()->json(
+                        [
+                            'msg' => 'Phase ' . $Phase['phase'] . ' has been updated',
+                            'status'=> 200,
+    
+                        ]
+                    );
 
                 endif;
             endif;

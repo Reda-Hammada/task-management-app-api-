@@ -54,10 +54,10 @@ Route::group(['middleware'=>['auth:sanctum','throttle:90,1']], function(){
     Route::delete('/task/{id}',[Taskcontroller::class,'destroy']);
  
     //Subtask api route 
-    Route::post('/subtask/create/{id}', [Subtaskcontroller::class, 'store']);
+    Route::post('/subtask/{taskId}', [Subtaskcontroller::class, 'store']);
     Route::get('/subtask/{id}', [Subtaskcontroller::class, 'index']);
-    Route::put('/subtask/update/{id}', [Subtaskcontroller::class, 'update']);
-    Route::delete('/subtask/delete/{id}', [Subtaskcontroller::class, 'destroy']);
+    Route::put('/subtask/{id}', [Subtaskcontroller::class, 'update']);
+    Route::delete('/subtask/{id}', [Subtaskcontroller::class, 'destroy']);
 
     // user route logout & update   
     Route::get('/Logout', [Usercontroller::class, 'Logout']);
