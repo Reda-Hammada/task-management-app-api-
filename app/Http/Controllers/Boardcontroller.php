@@ -134,13 +134,14 @@ class Boardcontroller extends Controller
 
             if(!empty($fetchBoard)):
 
-                $Board->where('id', $id)->delete();
+                $Board->where('id', $id)->with('phases')->with('tasks')->with('subtasks')->delete();
 
-                return response ([
+                return response ()->json([
 
-                    'Message' => 'Board was delected successfuly'
+                    'Message' => 'Board was delected successfuly',
+                    'status'=>200,
 
-                ],200);
+                ]);
 
             endif;
 
