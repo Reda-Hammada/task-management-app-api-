@@ -34,7 +34,7 @@ Route::fallback(function (){
 
 //Protected routes
 Route::group(['middleware'=>['auth:sanctum','throttle:90,1']], function(){
-    Route::get('/boards/{boardId}/phases/tasks/subtasks/', [Boardcontroller::class, 'show']);
+    Route::get('/boards/{boardId}/phases/tasks', [Boardcontroller::class, 'show']);
     // Board api routes 
     Route::get('/boards/user/{userId}', [Boardcontroller::class, 'index']);
     Route::put('/boards/{id}', [Boardcontroller::class, 'update']);
@@ -43,21 +43,21 @@ Route::group(['middleware'=>['auth:sanctum','throttle:90,1']], function(){
 
     // Phase api route 
     Route::get('/phase/{id}', [Phasecontroller::class, 'index']);
-    Route::post('/phase/{boardId}',[Phasecontroller::class, 'store']);
-    Route::put('/phase/{id}', [Phasecontroller::class, 'update']);
-    Route::delete('/phase/{id}',[Phasecontroller::class,'destroy']);
+    Route::post('/boards/phases/{boardId}',[Phasecontroller::class, 'store']);
+    Route::put('/phases/{id}', [Phasecontroller::class, 'update']);
+    Route::delete('/phases/{id}',[Phasecontroller::class,'destroy']);
     
     //Task api route
     Route::get('/task/{id}', [Taskcontroller::class,'index']);
-    Route::post('/task/{phaseId}',[Taskcontroller::class,'store']);
-    Route::put('/task/{id}',[Taskcontroller::class,'update']);
-    Route::delete('/task/{id}',[Taskcontroller::class,'destroy']);
+    Route::post('/phases/tasks/{phaseId}',[Taskcontroller::class,'store']);
+    Route::put('/tasks/{id}',[Taskcontroller::class,'update']);
+    Route::delete('/tasks/{id}',[Taskcontroller::class,'destroy']);
  
     //Subtask api route 
-    Route::post('/subtask/{taskId}', [Subtaskcontroller::class, 'store']);
-    Route::get('/subtask/{id}', [Subtaskcontroller::class, 'index']);
-    Route::put('/subtask/{id}', [Subtaskcontroller::class, 'update']);
-    Route::delete('/subtask/{id}', [Subtaskcontroller::class, 'destroy']);
+    Route::post('/tasks/subtask/{taskId}', [Subtaskcontroller::class, 'store']);
+    Route::get('/tasks/subtasks/{taskId}', [Subtaskcontroller::class, 'index']);
+    Route::put('/subtasks/{id}', [Subtaskcontroller::class, 'update']);
+    Route::delete('/subtasks/{id}', [Subtaskcontroller::class, 'destroy']);
 
     // user route logout & update   
     Route::get('/Logout', [Usercontroller::class, 'Logout']);

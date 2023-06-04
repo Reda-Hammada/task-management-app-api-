@@ -63,7 +63,7 @@ class Boardcontroller extends Controller
     public function show($boardId)
     {
         //
-        $Board = Board::with('phase.tasks.subtasks')->find($boardId);
+        $Board = Board::with('phase.tasks')->find($boardId);
               
             return response()->json([
                 
@@ -100,10 +100,13 @@ class Boardcontroller extends Controller
 
         if($Board):
 
-            return response([
+            return response(
+                [
                'msg'=> 'Board id ' . $id .' updated successfully',
-               ['Board'=> $field['board']],
-            ],200);
+               'board'=> $field['board'],
+               'status' => 200,
+            ]
+        );
 
         endif;
     }

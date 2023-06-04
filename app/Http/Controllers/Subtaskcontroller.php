@@ -15,24 +15,23 @@ class Subtaskcontroller extends Controller
     public function index($task_id)
     {
         //
+        $Subtasks = Subtasks::where('task_id', $task_id)->get();
 
-        $Subtasks = new Subtasks();
-        $Subtasks->where('task_id', $task_id)->get();
-
-        return response([
-            'subtasks' => $Subtasks,
-        ]);
+        if ($Subtasks->count() > 0) {
+            // Subtasks found
+            return response()->json([
+                'subtasks' => $Subtasks,
+                'status' => 200,
+            ]);
+        } else {
+            // No subtasks found
+            return response()->json([
+                'message' => 'No subtasks found',
+                'status' => 404,
+            ]);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -74,38 +73,48 @@ class Subtaskcontroller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {       
         //
-        $field = $request->validate([
-
-            'subtask' => 'string|required',
-        ]);
-
         $Subtask = Subtasks::where(
 
             'id', $id,
         )
         ->first();
 
-        if(!empty($Subtask)):
 
-            $updateSubtask = new Subtasks();
-
-            $updateSubtask->where('id',$id)
-            ->update(
-                [
-
-                'subtask_name'=>$field['subtask']
-                
-                ]
-            );
-
-            return response([
-
-                'msg' => $Subtask['subtask_name'] . ' has been successfully udpated',
+        if($request['subtask']):
+            $field = $request->validate([
+                'subtask' => 'string'
             ]);
+            
+            $Subtask->subtask_name = $field['subtask'];
+            $Subtask->save();
+            return response()
+                    ->json([
+                        'msg' =>'Subtask has been successfully udpated',
+                        'status'=> 200,
+                        
+                    ]);
 
         endif;
+        
+        if($request['isDone']):
+            $field = $request->validate([
+                'isDone' => 'boolean'
+            ]);
+             
+            $Subtask->isDone = $field['isDone'];
+            $Subtask->save();
+            return response()
+            ->json([
+                'msg' =>'Subtask status has been updated',
+                'status'=> 200,
+                'isDone' => $Subtask->isDone            
+            ]);
+
+
+        endif;
+        
     }
 
     /**
